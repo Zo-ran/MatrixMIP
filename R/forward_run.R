@@ -1,4 +1,4 @@
-#' @title Semi-Analytical Spin-Up
+#' @title Forward Run
 
 #' @description This package predictswhether the stock price at tommorow's market close would be higher or lowercompared to today's closing place.
 
