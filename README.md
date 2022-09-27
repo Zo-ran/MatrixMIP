@@ -22,6 +22,8 @@ library("matrixMIP")
 ## Usage
 
 ```R
+library(matrixMIP)
+
 pool_n <- 15   #the number of pools
 
 Initial_X <- rep(0, pool_n)
