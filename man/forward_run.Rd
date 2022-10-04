@@ -2,12 +2,18 @@
 % Please edit documentation in R/forward_run.R
 \name{forward_run}
 \alias{forward_run}
-\title{Semi-Analytical Spin-Up}
+\title{Forward Run}
 \usage{
-forward_run(iterations, timestep, Initial_X, A, B, K, Tr, Scalar, Bscalar, Gpp)
+forward_run(Initial_X, A, B, K, Tr, Scalar, Bscalar, Gpp)
+}
+\arguments{
+\item{Initial_X}{a vector of the initial size of each C pool, which can be obtained by "sasu"}
+}
+\value{
+a list
 }
 \description{
-This package predictswhether the stock price at tommorow's market close would be higher or lowercompared to today's closing place.
+predict C pool sizes and C fluxes
 }
 \examples{
 sasu("month", x0, mat.A, mat.B0, mat.K, mat.Tr, scalar1, Bscalar1, I4simu0)

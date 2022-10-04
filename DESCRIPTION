@@ -1,9 +1,9 @@
 Package: matrixMIP
 Type: Package
-Title: A Matrix-Based MIP(Model Intercomparison Project) 
+Title: A Matrix-Based MIP(Model Intercomparison Pro ject) 
 Version: 0.1.0
 Author: Enqing Hou, Zoran Zhu
-Maintainer: Zoran Zhu, 536329325@qq.com
+Maintainer: Zoran Zhu <zoranzhu@foxmail.com>
 Description: The aim of matrixMIP(Model Intercomparison Project) is to help you build land C cycle models in a in a unified matrix form. 
 Encoding: UTF-8
 LazyData: true

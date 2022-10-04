@@ -1,21 +1,22 @@
 #' @title Forward Run
 
-#' @description This package predictswhether the stock price at tommorow's market close would be higher or lowercompared to today's closing place.
+#' @description predict C pool sizes and C fluxes
 
-#' @param symbol
+#' @param Initial_X a vector of the initial size of each C pool, which can be obtained by "sasu"
 
-#' @return NULL
+#' @return a list
 
 #' @examples sasu("month", x0, mat.A, mat.B0, mat.K, mat.Tr, scalar1, Bscalar1, I4simu0)
 
 #' @export
 
+forward_run <- function(Initial_X, A, B, K, Tr, Scalar, Bscalar, Gpp) {
+  #### input check
+  check_input(Initial_X, A, B, K, Tr, Scalar, Bscalar, Gpp)
 
 
-
-forward_run <- function(timestep, Initial_X, A, B, K, Tr, Scalar, Bscalar, Gpp) {
   for(f in 1:datelength){
-    scal.temp=diag(x = 0, pn, pn); diag(scal.temp)=as.numeric(scalar1[f,])
+    scal.temp <- diag(x = 0, pn, pn); diag(scal.temp)=as.numeric(scalar1[f,])
     matrixAK = mat.A%*%(scal.temp%*%mat.K)+mat.Tr
     if(f==1) {g = f} else {g = f-1}
     # update of carbon pool sizes
@@ -57,4 +58,5 @@ forward_run <- function(timestep, Initial_X, A, B, K, Tr, Scalar, Bscalar, Gpp) 
         cflux[f,j+20]=sum(Bscalar1[k,ordtemp2]*mat.B[ordtemp2])*I4simu[f]
     }
   }
+  s
 }

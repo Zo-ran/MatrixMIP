@@ -1,8 +1,5 @@
 # MatrixMIP
-
-## Introduction
-
-The aim of matrixMIP(Model Intercomparison Project) is to help you build land C cycle models in a in a unified matrix form. 
+The aim of matrixMIP(Model Intercomparison Project) is to help you build land Carbon cycle models in a in a unified matrix form. 
 
 This model is based on the fact that although hundreds of models have been developed to represent
 land C dynamics , the current generation of land C models inside ESMs all use multiple pools to represent various land C compartments and transfers among them. 
