@@ -65,7 +65,7 @@
 sasu <- function(iterations, timestep, Initial_X, A, B, K, Tr, Scalar, Bscalar, Gpp) {
   #### input check
   check_input(Initial_X, A, B, K, Tr, Scalar, Bscalar, Gpp, iterations, timestep)
-
+  
   #### some variables
   AVG_B <- B / sum(B)
   date_length <- dim(Scalar)[1] # the length of date

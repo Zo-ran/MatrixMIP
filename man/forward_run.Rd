@@ -4,17 +4,102 @@
 \alias{forward_run}
 \title{Forward Run}
 \usage{
-forward_run(Initial_X, A, B, K, Tr, Scalar, Bscalar, Gpp)
+forward_run(
+  Initial_X,
+  A,
+  B,
+  K,
+  Tr,
+  Scalar,
+  Bscalar,
+  Gpp,
+  soil_depth,
+  OP = NULL,
+  OL = NULL,
+  OS = NULL
+)
 }
 \arguments{
 \item{Initial_X}{a vector of the initial size of each C pool, which can be obtained by "sasu"}
+
+\item{A}{a matrix indicating coefficients of transfer among C pools}
+
+\item{B}{a vector indicating indicating plant C allocation; Only plant C pools will not have a value of 0}
+
+\item{K}{a diagonal matrix indicating C leaving individual pools through mortality or decomposition}
+
+\item{Tr}{a matrix indicating vertical transfer coefficients}
+
+\item{Scalar}{a matrix indicating environmental scalars, which is used to modify the matrix K}
+
+\item{Bscalar}{a matrix indicating C input through photosynthesis, which is used to modify the matrix B}
+
+\item{Gpp}{a vector of daily or monthly gross primary production(Gpp)}
+
+\item{soil_depth}{a vector of depth of soil}
+
+\item{OP}{order of plant C pools; for example, if C pools 1, 3 and 4 are plant C pools, 'OP' should be c(1, 3, 4)}
+
+\item{OL}{order of litter C pools; see 'OP' for details}
+
+\item{OS}{order of soil C pools; see 'OP' for details}
 }
 \value{
-a list
+a list of C pool size, net ecosystem exchange, net ecosystem exchange of plant C pools, net ecosystem exchange of litter C pools, net ecosystem exchange of soil C pools, carbon input to plant, litter respiration, carbon input to litter, soil respiration and carbon input to soil
+You can use the return value as follows:
+result <- forward_run(...)
+result$C_pool_size    ### C pool size
+result$NEC            ### net ecosystem exchange
+result$NEC_plant      ### net ecosystem exchange of plant C pools
+result$NEC_litter     ### net ecosystem exchange of litter C poolss
+result$NEC_soil       ### net ecosystem exchange of soil C pools
+result$Ip             ### carbon input to plant
+result$Rlit           ### litter resipiration
+result$Ilit           ### carbon input to litter
+result$Rsol           ### soil resipiration
+result$Isol           ### carbon input to soil
 }
 \description{
 predict C pool sizes and C fluxes
 }
 \examples{
-sasu("month", x0, mat.A, mat.B0, mat.K, mat.Tr, scalar1, Bscalar1, I4simu0)
+pool_n <- 15   #the number of pools
+
+Initial_X <- rep(0, pool_n)
+
+A <- diag(pool_n)
+A[6, 1] <- -0.75
+A[7, 1] <- -0.25
+A[8, 2] <- -0.75
+A[9, 2] <- -0.25
+A[10, 3] <- -1
+A[11, 4] <- -1
+A[12, 5] <- -1
+A[13, 6] <- -0.4125; A[13, 7] <- -0.45; A[13, 8] <- -0.3375; A[13, 9] <- -0.45; A[13, 10:12] <- -0.125; A[13, 14] <- -0.42
+A[14, 6] <- -0.175; A[14, 8] <- -0.175; A[14, 10:12] <- -0.375; A[14, 13] <- -0.1664; A[14, 15] <- -0.45
+A[15, 13] <- -0.004; A[15, 14] <- -0.03
+
+B <- c(0.1725, 0.15, 0.0225, 0.14, 0.015, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+
+K <- diag(c(0.09, 0.05, 0.01, 0.0008, 0.001, 0.153857, 1.2, 0.190296, 1.5, 0.0555556, 0.166667, 0.138889, 0.5865, 0.0162857, 0.000557143))
+
+Tr <- matrix(0, pool_n, pool_n)
+
+datelength4sasu <- 12
+Scalar <- matrix(0, nrow = datelength4sasu, ncol = pool_n)
+Scalar[, 1:5] <- 1
+Scalar[, 6:15] <- c(0.001125247, 0.026934919, 0.00386343, 0.036797823, 0.056063114, 0.23379085, 0.168964848, 0.259775597, 0.019196622, 0.061492205, 0.013498124, 0.004996017)
+
+Bscalar <- matrix(0, nrow = datelength4sasu, ncol = pool_n)
+Bscalar[ , ] <- 1
+
+Gpp <- c(1.5074, 12.8787, 33.9259, 78.7088, 142.6238, 171.0413, 194.6502, 203.5172, 145.2821, 96.9997, 27.6457, 7.9289)
+
+initial <- sasu(100, "month", Initial_X, A, B, K, Tr, Scalar, Bscalar, Gpp)
+
+soil_depth <- rep(0, pool_n)
+OP <- 1:5; OL <- 6:12; OS <- 13:15
+
+res <- forward_run(initial, A, B, K, Tr, Scalar, Bscalar, Gpp, soil_depth, OP, OL, OS)
+res$C_pool_size
 }
